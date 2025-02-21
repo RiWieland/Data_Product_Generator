@@ -2,7 +2,7 @@
 Simulates data into a dataframe and writes it using the sink
 """
 
-from pyspark.sql.types import StructField, StructField, IntegerType
+from pyspark.sql.types import StructField, StructField, IntegerType, DoubleType
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import rand, shuffle, round
 
@@ -28,10 +28,18 @@ class DataframeGenerator:
         df = df.withColumn("INT",df.INT.cast(IntegerType()))
         return df
 
-    def add_column_int(self):
+    def add_column_int(self, col_name:str = "INT"):
         """
         add a column of type int to the dataframe
         """
-        df = self.df_init.withColumn('INT', round(rand(seed=42) * 10000, 0))
-        df = df.withColumn("INT",df.INT.cast(IntegerType()))
+        df = self.df_init.withColumn(col_name, round(rand(seed=42) * 10000, 0))
+        df = df.withColumn(col_name, df[col_name].cast(IntegerType()))
+        return df
+
+    def add_column_double(self, col_name:str = "DOUBLE"):
+        """
+        add a column of type str
+        """
+        df = self.df_init.withColumn(col_name, rand(seed=42) * 10000)
+        df = df.withColumn(col_name, df[col_name].cast(DoubleType()))
         return df
