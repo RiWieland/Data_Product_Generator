@@ -38,7 +38,7 @@ class DataframeGenerator:
 
     def add_column_double(self, col_name:str = "DOUBLE"):
         """
-        add a column of type str
+        add a column of type double to the dataframe
         """
         df = self.df_init.withColumn(col_name, rand(seed=42) * 10000)
         df = df.withColumn(col_name, df[col_name].cast(DoubleType()))
