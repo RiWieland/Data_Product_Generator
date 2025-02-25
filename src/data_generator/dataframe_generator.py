@@ -1,10 +1,11 @@
 """
 Simulates data into a dataframe and writes it using the sink
 """
+import string
 
-from pyspark.sql.types import StructField, StructField, IntegerType, DoubleType
+from pyspark.sql.types import StructField, StructField, IntegerType, DoubleType, StringType
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import rand, shuffle, round
+from pyspark.sql.functions import rand, shuffle, round, split, lit, concat, concat_ws, col, substring
 
 from utils.utils import get_spark
 
@@ -42,4 +43,15 @@ class DataframeGenerator:
         """
         df = self.df_init.withColumn(col_name, rand(seed=42) * 10000)
         df = df.withColumn(col_name, df[col_name].cast(DoubleType()))
+        return df
+
+    def add_column_str(self, col_name:str = "STRING"):
+        """
+        adding a random string to a dataframe
+        """
+        source_char = string.ascii_letters #+ string.digits
+        df = (self.df_init.withColumn('source_char', split(lit(source_char), ''))
+                    .withColumn(col_name, concat_ws('', col('source_char'))))
+
+        df = df.withColumn(col_name, substring(df[col_name], 0, 10)).drop("source_char")
         return df
