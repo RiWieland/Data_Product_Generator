@@ -18,40 +18,60 @@ class DataframeGenerator:
         self.row_count = row_count
         self.target_schema = schema
         self.spark = spark
-        self.df_init = self._initialize_df()
+        self.df = self._initialize_df()
 
-    def _initialize_df(self):
+    def create_df(self):
+        """
+        the main function to create the df
+        loops over the input schema and adds a column for the columns in the schema
+        """
+        for idx, column in enumerate(self.target_schema):
+            print(column)
+            if column.dataType == IntegerType():
+                self.add_column_int(str(idx))
+
+            if column.dataType == StringType():
+                self.add_column_str(str(idx))
+            
+            if column.dataType == DoubleType():
+                self.add_column_double(str(idx))
+        return self.df.drop("init")
+
+    def _initialize_df(self, col_name:str = "init"):
         """
         method for initialize a dataframe with the required row_count
         Adds ID Column 
         """
-        df = self.spark.range(1, self.row_count).withColumn('INT', round(rand(seed=42) * 10000, 0))#.cast(IntegerType())
-        df = df.withColumn("INT",df.INT.cast(IntegerType()))
+        df = self.spark.range(1, self.row_count).withColumnRenamed("id", col_name)#.withColumn(col_name, round(rand(seed=42) * 10000, 0))#.cast(IntegerType())
+        # df = df.withColumn("INT",df.INT.cast(IntegerType()))
         return df
 
-    def add_column_int(self, col_name:str = "INT"):
+    def add_column_int(self, idx:str):
         """
         add a column of type int to the dataframe
         """
-        df = self.df_init.withColumn(col_name, round(rand(seed=42) * 10000, 0))
-        df = df.withColumn(col_name, df[col_name].cast(IntegerType()))
-        return df
+        col_name = "INT_" + idx
+        self.df = self.df.withColumn(col_name, round(rand(seed=42) * 10000, 0))
+        self.df = self.df.withColumn(col_name, self.df[col_name].cast(IntegerType()))
+        #return df
 
-    def add_column_double(self, col_name:str = "DOUBLE"):
+    def add_column_double(self, idx:str):
         """
         add a column of type double to the dataframe
         """
-        df = self.df_init.withColumn(col_name, rand(seed=42) * 10000)
-        df = df.withColumn(col_name, df[col_name].cast(DoubleType()))
-        return df
+        col_name = "DOUBLE_" + idx
 
-    def add_column_str(self, col_name:str = "STRING"):
+        self.df = self.df.withColumn(col_name, rand(seed=42) * 10000)
+        self.df = self.df.withColumn(col_name, self.df[col_name].cast(DoubleType()))
+
+    def add_column_str(self, idx:str):
         """
         adding a random string to a dataframe
         """
+        col_name = "STRING_" + idx
+
         source_char = string.ascii_letters #+ string.digits
-        df = (self.df_init.withColumn('source_char', split(lit(source_char), ''))
+        self.df = (self.df.withColumn('source_char', split(lit(source_char), ''))
                     .withColumn(col_name, concat_ws('', col('source_char'))))
 
-        df = df.withColumn(col_name, substring(df[col_name], 0, 10)).drop("source_char")
-        return df
+        self.df = self.df.withColumn(col_name, substring(self.df[col_name], 0, 10)).drop("source_char")
