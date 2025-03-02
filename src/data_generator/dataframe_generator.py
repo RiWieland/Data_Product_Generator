@@ -32,7 +32,7 @@ class DataframeGenerator:
 
             if column.dataType == StringType():
                 self.add_column_str(str(idx))
-            
+
             if column.dataType == DoubleType():
                 self.add_column_double(str(idx))
         return self.df.drop("init")
@@ -42,8 +42,7 @@ class DataframeGenerator:
         method for initialize a dataframe with the required row_count
         Adds ID Column 
         """
-        df = self.spark.range(1, self.row_count).withColumnRenamed("id", col_name)#.withColumn(col_name, round(rand(seed=42) * 10000, 0))#.cast(IntegerType())
-        # df = df.withColumn("INT",df.INT.cast(IntegerType()))
+        df = self.spark.range(1, self.row_count).withColumnRenamed("id", col_name)
         return df
 
     def add_column_int(self, idx:str):
@@ -53,7 +52,6 @@ class DataframeGenerator:
         col_name = "INT_" + idx
         self.df = self.df.withColumn(col_name, round(rand(seed=42) * 10000, 0))
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(IntegerType()))
-        #return df
 
     def add_column_double(self, idx:str):
         """
