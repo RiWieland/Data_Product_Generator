@@ -72,4 +72,5 @@ class DataframeGenerator:
         self.df = (self.df.withColumn('source_char', split(lit(source_char), ''))
                     .withColumn(col_name, concat_ws('', col('source_char'))))
 
-        self.df = self.df.withColumn(col_name, substring(self.df[col_name], 0, 10)).drop("source_char")
+        self.df = self.df.withColumn(col_name, substring(self.df[col_name], 0, 10))\
+                    .drop("source_char")
