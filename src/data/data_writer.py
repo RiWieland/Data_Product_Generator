@@ -26,9 +26,18 @@ class DataWriter:
         else:
             return False
 
-    def init_delta(self):
+    def init_delta(self) -> bool:
         """
         write a empty dataframe with the schem
         """
         empty_df = self.spark.createDataFrame([], self.df.schema) # spark is the Spark Session
         empty_df.write.format("delta").mode("overwrite").save(self.path)
+        return True
+
+    def write_df_to_delta(self):
+        """
+        method to write spark dataframe to delta
+        """
+        if not self._is_delta_initialized:
+            self.init_delta()
+        self.df.write.format("delta").mode("append").save(self.path)
