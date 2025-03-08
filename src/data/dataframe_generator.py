@@ -26,7 +26,6 @@ class DataframeGenerator:
         loops over the input schema and adds a column for the columns in the schema
         """
         for idx, column in enumerate(self.target_schema):
-            print(column)
             if column.dataType == IntegerType():
                 self.add_column_int(str(idx))
 
@@ -50,7 +49,7 @@ class DataframeGenerator:
         add a column of type int to the dataframe
         """
         col_name = "INT_" + idx
-        self.df = self.df.withColumn(col_name, round(rand(seed=42) * 10000, 0))
+        self.df = self.df.withColumn(col_name, round(rand(seed=42)*1000 , 0)) 
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(IntegerType()))
 
     def add_column_double(self, idx:str):
@@ -59,7 +58,7 @@ class DataframeGenerator:
         """
         col_name = "DOUBLE_" + idx
 
-        self.df = self.df.withColumn(col_name, rand(seed=42) * 10000)
+        self.df = self.df.withColumn(col_name, rand(seed=42) *1000 )
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(DoubleType()))
 
     def add_column_str(self, idx:str):
