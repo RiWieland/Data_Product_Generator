@@ -4,7 +4,7 @@ services:
   spark-master:
     container_name: da-spark-master
     build: .
-    image: da-spark-image
+    image: apache/spark
     entrypoint: ['./entrypoint.sh', 'master']
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
@@ -24,7 +24,7 @@ services:
 
   spark-history-server:
     container_name: da-spark-history
-    image: da-spark-image
+    image: apache/spark
     entrypoint: ['./entrypoint.sh', 'history']
     depends_on:
       - spark-master
@@ -37,7 +37,7 @@ services:
 
   spark-worker:
 #    container_name: da-spark-worker
-    image: da-spark-image
+    image: apache/spark
     entrypoint: ['./entrypoint.sh', 'worker']
     depends_on:
       - spark-master
