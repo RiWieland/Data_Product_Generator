@@ -11,4 +11,3 @@ class BronzeProduct():
             StructField("description", StringType(), True),
             StructField("price", IntegerType(), True)
     ])
-
