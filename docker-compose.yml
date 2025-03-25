@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   spark-master:
-    container_name: da-spark-master
+    container_name: spark-master
     build: .
     image: apache/spark
-    entrypoint: ['./entrypoint.sh', 'master']
+    entrypoint: ["/usr/local/bin/entrypoint.sh'", "master"]
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
       interval: 5s
@@ -21,11 +21,10 @@ services:
       - '9090:8080'
       - '7077:7077'
 
-
   spark-history-server:
-    container_name: da-spark-history
+    container_name: spark-history
     image: apache/spark
-    entrypoint: ['./entrypoint.sh', 'history']
+    entrypoint: ['/usr/local/bin/entrypoint.sh', 'history']
     depends_on:
       - spark-master
     env_file:
@@ -36,9 +35,9 @@ services:
       - '18080:18080'
 
   spark-worker:
-#    container_name: da-spark-worker
+    container_name: spark-worker
     image: apache/spark
-    entrypoint: ['./entrypoint.sh', 'worker']
+    entrypoint: ['/usr/local/bin/entrypoint.sh', 'worker']
     depends_on:
       - spark-master
     env_file:
@@ -47,6 +46,7 @@ services:
       - ./book_data:/opt/spark/data
       - ./spark_apps:/opt/spark/apps
       - spark-logs:/opt/spark/spark-events
+
 
 volumes:
   spark-logs:
