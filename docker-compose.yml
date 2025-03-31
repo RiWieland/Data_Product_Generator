@@ -6,8 +6,8 @@ services:
       - "9090:8080"
       - "7077:7077"
     volumes:
-       - ./apps:/opt/spark-apps
-       - ./data:/opt/spark-data
+       - ./app:/opt/app
+       - ./sink:/opt/sink
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
@@ -27,8 +27,8 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-a
     volumes:
-       - ./apps:/opt/spark-apps
-       - ./data:/opt/spark-data
+       - ./app:/opt/app
+       - ./sink:/opt/sink
   spark-worker-b:
     image: cluster-apache-spark:3.0.2
     ports:
@@ -45,8 +45,8 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-b
     volumes:
-        - ./apps:/opt/spark-apps
-        - ./data:/opt/spark-data
+       - ./app:/opt/app
+       - ./sink:/opt/sink
   demo-database:
     image: postgres:11.7-alpine
     ports: 
