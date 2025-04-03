@@ -1,7 +1,7 @@
 FROM openjdk:11.0.11-jre-slim-buster as builder
 
 # Add Dependencies for PySpark
-RUN apt-get update && apt-get install -y curl vim wget software-properties-common ssh net-tools ca-certificates python3 python3-pip python3-numpy python3-matplotlib python3-scipy python3-pandas python3-simpy
+RUN apt-get update && apt-get install -y curl vim wget software-properties-common ssh net-tools ca-certificates cmake protobuf-compiler python3 python3-pip python3-numpy python3-matplotlib python3-scipy python3-pandas python3-simpy
 
 RUN update-alternatives --install "/usr/bin/python" "python" "$(which python3)" 1
 
@@ -17,6 +17,9 @@ RUN wget --no-verbose -O apache-spark.tgz "https://archive.apache.org/dist/spark
 && tar -xf apache-spark.tgz -C /opt/spark --strip-components=1 \
 && rm apache-spark.tgz
 
+# Install python deps
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 FROM builder as apache-spark
 
