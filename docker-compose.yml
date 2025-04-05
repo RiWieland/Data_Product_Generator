@@ -8,6 +8,7 @@ services:
     volumes:
        - ./apps:/opt/apps
        - ./sink:/opt/sink
+       - ./spark-logs:/opt/spark/logs
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
@@ -29,6 +30,7 @@ services:
     volumes:
        - ./apps:/opt/apps
        - ./sink:/opt/sink
+        - ./spark-logs:/opt/spark/logs
   spark-worker-b:
     image: cluster-apache-spark:3.5.3
     ports:
@@ -47,3 +49,4 @@ services:
     volumes:
         - ./apps:/opt/apps
         - ./sink:/opt/sink
+        - ./spark-logs:/opt/spark/logs
