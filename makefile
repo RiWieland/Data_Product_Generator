@@ -4,11 +4,9 @@ build-nc: ; docker-compose build --no-cache
 
 build-progress: ; docker-compose build --no-cache --progress=plain
 
-down: ; docker-compose down --volumes
+down: ; docker-compose down
 
 up: ; docker-compose up -d
-
-start: ; make down &&  make build && docker-compose up -d
 
 run-scaled: ; make down && docker-compose up --scale spark-worker=3
 
@@ -16,7 +14,11 @@ run-d: ; make down && docker-compose up -d
 
 stop: ; docker-compose stop
 
+Init: ; colima start --mount .:w --cpu 6 --memory 6
 
-submit: ;  make start && docker exec  -w /opt -i -t spark_optimizer-spark-master-1 ./spark/bin/spark-submit  --master spark://spark-master:7077 --driver-memory 1G \
+start: ; make down &&  make build && docker-compose up -d
+
+submit: ;  docker exec  -w /opt -i -t spark_optimizer-spark-master-1 ./spark/bin/spark-submit  --master spark://spark-master:7077 \
+--driver-memory 1G \
 --executor-memory 1G \
---packages io.delta:delta-spark_2.12:3.3.0 ./apps/data_generator/main.py 
+--packages io.delta:delta-spark_2.12:3.3.0 ./apps/data_generator/main.py
