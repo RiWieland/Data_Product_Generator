@@ -31,7 +31,7 @@ class DataWriter:
         write a empty dataframe with the schem
         """
         empty_df = self.spark.createDataFrame([], self.df.schema) # spark is the Spark Session
-        empty_df.write.format("delta").partitionBy(self.partition_by).mode("overwrite").save(self.path)
+        empty_df.write.format("delta").mode("overwrite").save(str(self.path))
         return True
 
     def write_df_to_delta(self):
@@ -41,14 +41,4 @@ class DataWriter:
         if not self._is_delta_initialized:
             self.init_delta()
         self.df.write.format("delta").mode("append").save(self.path)
-
-    def add_partition(self):
-        """
-        adding a random string to a dataframe
-        """
-        list_columns = self.df.columns
-        if not self._is_delta_initialized:
-            for idx, col_name in list_columns:
-                if self.partition_by_type in col_name:
-                    self.partitionBy(col_name)
 
