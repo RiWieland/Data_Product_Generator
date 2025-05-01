@@ -14,7 +14,7 @@ run-d: ; make down && docker-compose up -d
 
 stop: ; docker-compose stop
 
-Init: ; colima start --mount .:w --cpu 6 --memory 6
+init: ; colima start --mount /Users/richardwieland/Desktop/projects/spark_optimizer:w --cpu 6 --memory 6
 
 start: ; make down &&  make build && docker-compose up -d
 
