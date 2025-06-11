@@ -1,4 +1,4 @@
-build:  ; docker-compose build
+build:  ; docker build -t cluster-apache-spark:3.5.3 .
 
 build-nc: ; docker-compose build --no-cache
 
