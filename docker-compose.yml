@@ -7,11 +7,12 @@ services:
       - "7077:7077"
     volumes:
        - ./apps:/opt/apps
-       - ./sink:/opt/sink
+       - ../data_sink:/opt/sink
        - ./spark-logs:/opt/spark/logs
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
+
   spark-worker-a:
     image: cluster-apache-spark:3.5.3
     ports:
@@ -29,8 +30,9 @@ services:
       - SPARK_LOCAL_IP=spark-worker-a
     volumes:
        - ./apps:/opt/apps
-       - ./sink:/opt/sink
-        - ./spark-logs:/opt/spark/logs
+       - ../data_sink:/opt/sink
+       - ./spark-logs:/opt/spark/logs
+
   spark-worker-b:
     image: cluster-apache-spark:3.5.3
     ports:
@@ -48,5 +50,5 @@ services:
       - SPARK_LOCAL_IP=spark-worker-b
     volumes:
         - ./apps:/opt/apps
-        - ./sink:/opt/sink
+        - ../data_sink:/opt/sink
         - ./spark-logs:/opt/spark/logs
