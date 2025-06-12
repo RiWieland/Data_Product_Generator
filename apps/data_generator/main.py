@@ -42,13 +42,3 @@ DataWriter(df_bronze_order, path_bronze_order, spark).write_df_to_delta()
 end = time.time()
 
 logging.basicConfig(level=logging.INFO)
-
-
-df = spark.read.format("delta").load(path_to_write)
-
-string = "---------------------------------- count: " + str(df.count())
-logging.info(string)
-time_passed = end - start
-logging.info("-------------time: " + str(time_passed ))
-
-exit()
