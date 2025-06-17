@@ -2,7 +2,7 @@
 Initialize the Delta files use for the load
 """
 from apps.config.config_simulation import PATH_DOCKER_SINK
-from apps.data_generator.simulation.data_product_one.tables.abstract_table import DataTable
+from simulation.abstract.abstract_table import DataTable
 from pyspark.sql import SparkSession
 from delta.tables import DeltaTable
 
