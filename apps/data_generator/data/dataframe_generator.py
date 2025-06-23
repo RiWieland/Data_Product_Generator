@@ -19,20 +19,26 @@ class DataframeGenerator:
         self.spark = spark
         self.df = self._initialize_df()
 
-    def create_df(self):
+    def create_df(self, PSYDO_SCHEMA:bool):
         """
         the main function to create the df
         loops over the input schema and adds a column for the columns in the schema
         """
         for idx, column in enumerate(self.target_schema):
             if column.dataType == IntegerType():
-                self.add_column_int(str(idx))
+                psydo_col_name = self.add_column_int(str(idx))
+                if not PSYDO_SCHEMA:
+                    self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
 
             if column.dataType == StringType():
-                self.add_column_str(str(idx))
+                psydo_col_name = self.add_column_str(str(idx))
+                if not PSYDO_SCHEMA:
+                    self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
 
             if column.dataType == DoubleType():
-                self.add_column_double(str(idx))
+                psydo_col_name = self.add_column_double(str(idx))
+                if not PSYDO_SCHEMA:
+                    self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
         return self.df.drop("init")
 
     def _initialize_df(self, col_name:str = "init"):
@@ -43,13 +49,14 @@ class DataframeGenerator:
         df = self.spark.range(1, self.row_count).withColumnRenamed("id", col_name)
         return df
 
-    def add_column_int(self, idx:str):
+    def add_column_int(self, idx:str) -> str:
         """
         add a column of type int to the dataframe
         """
         col_name = "INT_" + idx
         self.df = self.df.withColumn(col_name, round(rand(seed=42)*1000 , 0)) 
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(IntegerType()))
+        return col_name
 
     def add_column_double(self, idx:str):
         """
@@ -59,6 +66,7 @@ class DataframeGenerator:
 
         self.df = self.df.withColumn(col_name, rand(seed=42) *1000 )
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(DoubleType()))
+        return col_name
 
     def add_column_str(self, idx:str):
         """
@@ -72,3 +80,4 @@ class DataframeGenerator:
 
         self.df = self.df.withColumn(col_name, substring(self.df[col_name], 0, 10))\
                     .drop("source_char")
+        return col_name
