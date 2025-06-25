@@ -6,6 +6,8 @@ Tool to generate a data mesh style data prodcuts including data tables - pysical
 The data generation and the roll out of the Delta tables is achived by a spark cluster run in seperate docker containers (currently one master and two worker notes) in a network. For the definition, see the docker file and docker-compose file.
 In the setting of the author, these docker containers are executed via colima container runtime.
 
+<img width="493" alt="image" src="https://github.com/user-attachments/assets/e536dbdd-90e7-4447-b66a-5effaa339efc" />
+
 
 1. Roll out data mesh style Data Product
 Tool for auto-generate and roll out a data mesh style data products. 
