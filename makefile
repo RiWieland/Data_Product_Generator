@@ -1,3 +1,5 @@
+include .env
+
 build:  ; docker build -t cluster-apache-spark:3.5.3 .
 
 build-nc: ; docker-compose build --no-cache
@@ -14,7 +16,7 @@ run-d: ; make down && docker-compose up -d
 
 stop: ; docker-compose stop
 
-init: ; colima start --mount /Users/richardwieland/Desktop/projects:w --cpu 6 --memory 6
+init: ; colima start --mount $(OUTPUT_DIR):w --cpu 6 --memory 6
 
 start: ; make down &&  make build && docker-compose up -d
 
