@@ -8,7 +8,8 @@ class BronzeOrder(DataTable):
     """
 
     def __init__(self):
-        self.name = "bronze_order"
+        super().__init__()
+        self._name = "bronze_order"
         self.schema = StructType([
             StructField("id", IntegerType(), True),
             StructField("product_id", StringType(), True),
@@ -16,3 +17,9 @@ class BronzeOrder(DataTable):
             StructField("quantity_ordered", IntegerType(), True)
     ])
 
+    @property
+    def name(self):
+        """
+        Name of the delta table
+        """
+        return self._name
