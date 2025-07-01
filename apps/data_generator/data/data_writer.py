@@ -41,4 +41,3 @@ class DataWriter:
         if not self._is_delta_initialized:
             self.init_delta()
         self.df.write.format("delta").mode("append").save(self.path)
-
