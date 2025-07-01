@@ -15,7 +15,6 @@ class DeltaInitializer:
     """
 
     def __init__(self, table:DataTable, path_:str = None, spark:SparkSession = get_spark()):
-        
         self.table = table
         self.path = self._get_path(path_)
         self.spark = spark

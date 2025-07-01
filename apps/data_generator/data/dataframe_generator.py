@@ -19,7 +19,7 @@ class DataframeGenerator:
         self.spark = spark
         self.df = self._initialize_df()
 
-    def create_df(self, PSYDO_SCHEMA:bool):
+    def create_df(self, psydo_schema:bool):
         """
         the main function to create the df
         loops over the input schema and adds a column for the columns in the schema
@@ -27,17 +27,17 @@ class DataframeGenerator:
         for idx, column in enumerate(self.target_schema):
             if column.dataType == IntegerType():
                 psydo_col_name = self.add_column_int(str(idx))
-                if not PSYDO_SCHEMA:
+                if not psydo_schema:
                     self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
 
             if column.dataType == StringType():
                 psydo_col_name = self.add_column_str(str(idx))
-                if not PSYDO_SCHEMA:
+                if not psydo_schema:
                     self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
 
             if column.dataType == DoubleType():
                 psydo_col_name = self.add_column_double(str(idx))
-                if not PSYDO_SCHEMA:
+                if not psydo_schema:
                     self.df = self.df.withColumnRenamed(psydo_col_name, column.name)
         return self.df.drop("init")
 
