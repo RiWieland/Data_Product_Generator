@@ -10,6 +10,7 @@ class BronzeOrder(DataTable):
     def __init__(self):
         super().__init__()
         self._name = "bronze_order"
+        self.layer = "bonze"
         self.schema = StructType([
             StructField("id", IntegerType(), True),
             StructField("product_id", StringType(), True),

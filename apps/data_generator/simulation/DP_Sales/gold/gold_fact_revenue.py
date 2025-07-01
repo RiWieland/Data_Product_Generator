@@ -9,6 +9,7 @@ class GoldFactRevenue(DataTable):
     def __init__(self):
         super().__init__()
         self._name = "gold_fact_revenue"
+        self.layer = "gold"
         self.schema = StructType([
             StructField("Product_id", IntegerType(), True),
             StructField("customer_id", IntegerType(), True),
