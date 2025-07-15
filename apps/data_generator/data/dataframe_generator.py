@@ -54,7 +54,7 @@ class DataframeGenerator:
         add a column of type int to the dataframe
         """
         col_name = "INT_" + idx
-        self.df = self.df.withColumn(col_name, round(rand(seed=42)*1000 , 0)) 
+        self.df = self.df.withColumn(col_name, round(rand(seed=42)*1000 , 0))
         self.df = self.df.withColumn(col_name, self.df[col_name].cast(IntegerType()))
         return col_name
 
