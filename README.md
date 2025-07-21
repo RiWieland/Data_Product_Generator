@@ -9,6 +9,7 @@ Tool to generate a data mesh style data prodcuts. These data tables - pysically 
 
 ### Data mesh style Data Product
 The data products correspond in the file structure and the content to the Data Products defined in the apps/data_generator_simualtion/DP_ and are rolled out to the data sink defined in the docker compose.
+By default, the target of the roll out is on a file system. On the specificied path, a delta table is created.
 
 The data products consist of tables defined in the sub folders. Beside the name, the main components that is contained there is the table definition schema.
 
